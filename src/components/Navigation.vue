@@ -34,12 +34,15 @@
 <script>
 export default {
   name: "Navigation",
+  props: ["drawer"],
 
   data: () => ({
     items: [
       { title: "Dashboard", icon: "mdi-view-dashboard" },
-      { title: "Photos", icon: "mdi-image" },
-      { title: "About", icon: "mdi-help-box" },
+      { title: "Tasks", icon: "mdi-clipboard-text" },
+      { title: "Emails", icon: "mdi-email" },
+      { title: "Groups", icon: "mdi-account-group" },
+      { title: "Messages", icon: "mdi-message" },
     ],
   }),
 

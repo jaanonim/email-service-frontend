@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <Navigation :drawer="drawer"></Navigation>
     <v-app-bar app
       ><v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon
       ><v-toolbar-title> Email Service</v-toolbar-title>
@@ -18,7 +19,7 @@
       <!-- Provides the application the proper gutter -->
       <v-container fluid>
         <!-- If using vue-router -->
-        <router-view></router-view>
+        <router-view> </router-view>
       </v-container>
     </v-main>
     <v-footer padless>
@@ -30,7 +31,8 @@
 </template>
 
 <script>
-import Navigation from "compontents/Navigation.vue";
+import Navigation from "./components/Navigation";
+
 export default {
   name: "App",
 
@@ -41,11 +43,6 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    items: [
-      { title: "Dashboard", icon: "mdi-view-dashboard" },
-      { title: "Photos", icon: "mdi-image" },
-      { title: "About", icon: "mdi-help-box" },
-    ],
   }),
 
   watch: {
