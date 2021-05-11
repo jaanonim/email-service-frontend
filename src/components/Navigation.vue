@@ -12,7 +12,7 @@
     <v-divider></v-divider>
 
     <v-list dense nav>
-      <v-list-item v-for="item in items" :key="item.title" link>
+      <v-list-item v-for="item in items" :key="item.title" link :to="item.page">
         <v-list-item-icon>
           <v-icon>{{ item.icon }}</v-icon>
         </v-list-item-icon>
@@ -38,11 +38,11 @@ export default {
 
   data: () => ({
     items: [
-      { title: "Dashboard", icon: "mdi-view-dashboard" },
-      { title: "Tasks", icon: "mdi-clipboard-text" },
-      { title: "Emails", icon: "mdi-email" },
-      { title: "Groups", icon: "mdi-account-group" },
-      { title: "Messages", icon: "mdi-message" },
+      { title: "Dashboard", icon: "mdi-view-dashboard", page: "/" },
+      { title: "Tasks", icon: "mdi-clipboard-text", page: "/tasks" },
+      { title: "Emails", icon: "mdi-email", page: "/emails" },
+      { title: "Groups", icon: "mdi-account-group", page: "/groups" },
+      { title: "Messages", icon: "mdi-message", page: "/messages" },
     ],
   }),
 
