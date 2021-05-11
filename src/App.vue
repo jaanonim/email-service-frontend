@@ -1,60 +1,57 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
+    <v-app-bar app
+      ><v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon
+      ><v-toolbar-title> Email Service</v-toolbar-title>
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      <v-switch
+        v-model="$vuetify.theme.dark"
+        inset
+        label="Theme"
+        persistent-hint
+        class="mt-5"
+      ></v-switch>
     </v-app-bar>
 
+    <!-- Sizes your content based upon application components -->
     <v-main>
-      <HelloWorld/>
+      <!-- Provides the application the proper gutter -->
+      <v-container fluid>
+        <!-- If using vue-router -->
+        <router-view></router-view>
+      </v-container>
     </v-main>
+    <v-footer padless>
+      <v-col class="text-center" cols="12">
+        {{ new Date().getFullYear() }} — <strong>jaanonim</strong>
+      </v-col>
+    </v-footer>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
-
+import Navigation from "compontents/Navigation.vue";
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    HelloWorld,
+    Navigation,
   },
 
   data: () => ({
-    //
+    drawer: false,
+    group: null,
+    items: [
+      { title: "Dashboard", icon: "mdi-view-dashboard" },
+      { title: "Photos", icon: "mdi-image" },
+      { title: "About", icon: "mdi-help-box" },
+    ],
   }),
+
+  watch: {
+    group() {
+      this.drawer = false;
+    },
+  },
 };
 </script>
