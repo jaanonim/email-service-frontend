@@ -6,6 +6,13 @@ import axios from 'axios'
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
+Vue.prototype.backendUrl = "http://127.0.0.1:8000"
+Vue.prototype.endpoints = {
+  groups: Vue.prototype.backendUrl + "/groups/",
+  messages: Vue.prototype.backendUrl + "/messages/",
+  emails: Vue.prototype.backendUrl + "/emails/",
+  tasks: Vue.prototype.backendUrl + "/tasks/",
+}
 
 new Vue({
   vuetify,

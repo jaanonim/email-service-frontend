@@ -6,7 +6,6 @@
       :values="values"
       :defaultItem="defaultItem"
       :editedItem="editedItem"
-      @show="show"
     >
       <v-col cols="12" sm="6" md="4">
         <v-text-field
@@ -67,36 +66,23 @@ export default {
       { text: "Message", value: "message" },
       { text: "Actions", value: "actions", sortable: false },
     ],
-    values: [
-      {
-        name: "task1",
-        status: 1,
-        term: "2020-12-04",
-        group: "sdf34g-df6gh-7657n-6756t8",
-        message: "sdhjfg-dfgfjgh-7657n-6756t8",
-      },
-      {
-        name: "task1",
-        status: 1,
-        term: "2020-12-04",
-        group: "sdf34g-df6gh-7657n-6756t8",
-        message: "sdhjfg-dfgfjgh-7657n-6756t8",
-      },
-      {
-        name: "task1",
-        status: 1,
-        term: "2020-12-04",
-        group: "sdf34g-df6gh-7657n-6756t8",
-        message: "sdhjfg-dfgfjgh-7657n-6756t8",
-      },
-      {
-        name: "task1",
-        status: 1,
-        term: "2020-12-04",
-        group: "sdf34g-df6gh-7657n-6756t8",
-        message: "sdhjfg-dfgfjgh-7657n-6756t8",
-      },
-    ],
+    values: [],
   }),
+  created: function () {
+    this.$axios
+      .get(this.endpoints.tasks)
+      .then(function (response) {
+        console.log(response);
+        if (response.status == 200) {
+          console.log(response.data.results);
+          this.values = response.data.results;
+        } else {
+          console.log("error");
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
 };
 </script>
