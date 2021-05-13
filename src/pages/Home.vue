@@ -62,27 +62,33 @@ export default {
       { text: "Name", value: "name" },
       { text: "Status", value: "status" },
       { text: "Term", value: "term" },
-      { text: "Group", value: "group" },
-      { text: "Message", value: "message" },
+      { text: "Group", value: "group.name" },
+      { text: "Message", value: "message.name" },
       { text: "Actions", value: "actions", sortable: false },
     ],
     values: [],
   }),
   created: function () {
-    this.$axios
-      .get(this.endpoints.tasks)
-      .then(function (response) {
-        console.log(response);
-        if (response.status == 200) {
-          console.log(response.data.results);
-          this.values = response.data.results;
-        } else {
-          console.log("error");
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    this.getData(1);
+  },
+  methods: {
+    getData(page) {
+      this.$axios
+        .get(this.endpoints.tasks + "?page=" + page)
+        .then((response) => {
+          if (response.status == 200) {
+            this.values = this.values.concat(response.data.results);
+            if (response.data.next != null) {
+              this.getData(page + 1);
+            }
+          } else {
+            console.log("error");
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
   },
 };
 </script>
