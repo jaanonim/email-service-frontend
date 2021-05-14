@@ -8,12 +8,10 @@
       :editedItem="editedItem"
     >
       <v-col cols="12" sm="6" md="4">
-        <v-text-field
-          v-model="editedItem.name"
-          label="Dessert name"
-        ></v-text-field>
+        <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
       </v-col>
       <TimePicker></TimePicker>
+      <ObjectPicker :items="values"></ObjectPicker>
       <v-col cols="12" sm="6" md="4">
         <v-text-field
           v-model="editedItem.calories"
@@ -23,18 +21,6 @@
       <v-col cols="12" sm="6" md="4">
         <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
       </v-col>
-      <v-col cols="12" sm="6" md="4">
-        <v-text-field
-          v-model="editedItem.carbs"
-          label="Carbs (g)"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" sm="6" md="4">
-        <v-text-field
-          v-model="editedItem.protein"
-          label="Protein (g)"
-        ></v-text-field>
-      </v-col>
     </DataTable>
   </div>
 </template>
@@ -42,12 +28,14 @@
 <script>
 import DataTable from "@/components/DataTable";
 import TimePicker from "@/components/inputs/TimePicker";
+import ObjectPicker from "@/components/inputs/ObjectPicker";
 
 export default {
   name: "Home",
   components: {
     DataTable,
     TimePicker,
+    ObjectPicker,
   },
   data: () => ({
     editedItem: {},
@@ -68,26 +56,29 @@ export default {
     ],
     values: [],
   }),
-  created: function () {
-    this.getData(1);
+  created: async function () {
+    this.values = await this.getData();
   },
   methods: {
-    getData(page) {
-      this.$axios
-        .get(this.endpoints.tasks + "?page=" + page)
-        .then((response) => {
-          if (response.status == 200) {
-            this.values = this.values.concat(response.data.results);
-            if (response.data.next != null) {
-              this.getData(page + 1);
-            }
-          } else {
-            console.log("error");
+    async getData(page = 1) {
+      var v = [];
+      try {
+        const response = await this.$axios.get(
+          this.endpoints.tasks + "?page=" + page
+        );
+        console.log(response);
+        if (response.status == 200) {
+          v = v.concat(response.data.results);
+          if (response.data.next != null) {
+            this.getData(page + 1);
           }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        } else {
+          console.log("error");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+      return v;
     },
   },
 };
