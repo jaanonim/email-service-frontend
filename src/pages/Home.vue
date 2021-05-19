@@ -11,16 +11,8 @@
         <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
       </v-col>
       <TimePicker></TimePicker>
-      <ObjectPicker :items="values"></ObjectPicker>
-      <v-col cols="12" sm="6" md="4">
-        <v-text-field
-          v-model="editedItem.calories"
-          label="Calories"
-        ></v-text-field>
-      </v-col>
-      <v-col cols="12" sm="6" md="4">
-        <v-text-field v-model="editedItem.fat" label="Fat (g)"></v-text-field>
-      </v-col>
+      <ObjectPicker label="group" :items="groups"></ObjectPicker>
+      <ObjectPicker label="message" :items="messages"></ObjectPicker>
     </DataTable>
   </div>
 </template>
@@ -29,6 +21,7 @@
 import DataTable from "@/components/DataTable";
 import TimePicker from "@/components/inputs/TimePicker";
 import ObjectPicker from "@/components/inputs/ObjectPicker";
+import getData from "@/api/main";
 
 export default {
   name: "Home",
@@ -55,31 +48,14 @@ export default {
       { text: "Actions", value: "actions", sortable: false },
     ],
     values: [],
+    groups: [],
+    messages: [],
   }),
   created: async function () {
-    this.values = await this.getData();
+    this.values = await getData(this.endpoints.tasks);
+    this.groups = await getData(this.endpoints.groups);
+    this.messages = await getData(this.endpoints.messages);
   },
-  methods: {
-    async getData(page = 1) {
-      var v = [];
-      try {
-        const response = await this.$axios.get(
-          this.endpoints.tasks + "?page=" + page
-        );
-        console.log(response);
-        if (response.status == 200) {
-          v = v.concat(response.data.results);
-          if (response.data.next != null) {
-            this.getData(page + 1);
-          }
-        } else {
-          console.log("error");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-      return v;
-    },
-  },
+  methods: {},
 };
 </script>
